@@ -1,14 +1,15 @@
 package br.com.alura.forum.controller;
 
 import java.net.URI;
-import java.util.List;
+
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -42,6 +43,7 @@ public class TopicoController {
 	
 	
 	@GetMapping("/topicos")
+	@Cacheable(value = "listaDeTopicos")
 	public Page<TopicoDTO>lista(@RequestParam(required= false) String nomeDoCurso,
 			@PageableDefault(sort="id", direction=Direction.ASC, page=0, size=10) Pageable paginacao){
 		
@@ -58,6 +60,8 @@ public class TopicoController {
 	}
 	
 	@PostMapping("/topicos")
+	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<TopicoDTO> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
@@ -73,19 +77,20 @@ public class TopicoController {
 		
 	}
 	
-	
 	@PutMapping("/topicos/{id}")
 	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<TopicoDTO> atualizarTopico(@PathVariable Long id, @RequestBody @Valid AtualizacaoTopicoForm form){
 		Topico topico = form.atualizar(id, topicoRepository);
 		return ResponseEntity.ok(new TopicoDTO(topico));
 	}
+	
 	@DeleteMapping("/topicos/{id}")
+	@Transactional
+	@CacheEvict(value="listaDeTopicos", allEntries = true)
 	public ResponseEntity<?> remover(@PathVariable Long id){
-		
 		topicoRepository.deleteById(id);
 		return ResponseEntity.ok().build();
-		
 	}
 	
 	
