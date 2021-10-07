@@ -5,8 +5,10 @@ import java.util.Objects;
 
 import org.springframework.data.domain.Page;
 
-import br.com.alura.forum.modelo.Topico; 
+import br.com.alura.forum.modelo.Topico;
+import lombok.Data; 
 
+@Data
 public class TopicoDTO {
 
      	 private Long id; 
@@ -21,56 +23,6 @@ public class TopicoDTO {
         	        this.dataCriacao = topico.getDataCriacao();
 
         	        }
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getTitulo() {
-			return titulo;
-		}
-
-		public void setTitulo(String titulo) {
-			this.titulo = titulo;
-		}
-
-		public String getMensagem() {
-			return mensagem;
-		}
-
-		public void setMensagem(String mensagem) {
-			this.mensagem = mensagem;
-		}
-
-		public LocalDateTime getDataCriacao() {
-			return dataCriacao;
-		}
-
-		public void setDataCriacao(LocalDateTime dataCriacao) {
-			this.dataCriacao = dataCriacao;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(dataCriacao, id, mensagem, titulo);
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			TopicoDTO other = (TopicoDTO) obj;
-			return Objects.equals(dataCriacao, other.dataCriacao) && Objects.equals(id, other.id)
-					&& Objects.equals(mensagem, other.mensagem) && Objects.equals(titulo, other.titulo);
-		}
 		
 		public static Page<TopicoDTO> converter(Page<Topico> topicos) {
 		    return topicos.map(TopicoDTO::new);

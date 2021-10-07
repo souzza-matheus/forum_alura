@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import br.com.alura.forum.modelo.StatusTopico;
 import br.com.alura.forum.modelo.Topico;
+import lombok.Getter;
 
+@Getter
 public class DetalhesDoTopicoDTO {
 
 	
@@ -32,33 +34,4 @@ public class DetalhesDoTopicoDTO {
 			
 		}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
-	}
-
-	public String getNomeAutor() {
-		return nomeAutor;
-	}
-
-	public StatusTopico getStatus() {
-		return status;
-	}
-
-	public List<RespostaDTO> getResposta() {
-		return resposta;
-	}
-     
-     
 }
